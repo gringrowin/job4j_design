@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a698a0a-2264-4553-a020-2c00da023bb8" name="Changes" comment="init maven">
-      <change beforePath="$PROJECT_DIR$/job4j_design.iml" beforeDir="false" />
-    </list>
+    <list default="true" id="5a698a0a-2264-4553-a020-2c00da023bb8" name="Changes" comment="init maven" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649094364471</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="init maven">
+      <created>1649094674492</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1649094674492</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
