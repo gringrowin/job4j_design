@@ -25,7 +25,7 @@ public class RoleStoreTest {
     }
 
     @Test
-    public void whenAddDuplicateAndFindRoleIs  () {
+    public void whenAddDuplicateAndFindRoleIs() {
         RoleStore store = new RoleStore();
         store.add(new Role("1", "Coach"));
         store.add(new Role("1", "Mentor"));
