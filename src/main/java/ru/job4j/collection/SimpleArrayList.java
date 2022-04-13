@@ -16,10 +16,14 @@ public class SimpleArrayList<T> implements List<T> {
         this.container = (T[]) new Object[capacity];
     }
 
+    private T[] grow() {
+        return Arrays.copyOf(container, container.length * 2);
+    }
+
     @Override
     public void add(T value) {
         if (size == container.length - 1) {
-            container = Arrays.copyOf(container, container.length * 2);
+            container = grow();
         }
         container[size] = value;
         size++;
@@ -28,16 +32,14 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, size);
-        T oldValue = container[index];
+        T oldValue = get(index);
         container[index] = newValue;
         return oldValue;
     }
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, size);
-        T oldValue = container[index];
+        T oldValue = get(index);
         System.arraycopy(container,
                 index + 1,
                 container,
