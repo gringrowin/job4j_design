@@ -10,10 +10,10 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> out = new SimpleStack<>();
 
     public T poll() {
-        if (sizeIn == 0 && sizeOut == 0) {
-            throw new NoSuchElementException();
-        }
         if (sizeOut == 0) {
+            if (sizeIn == 0) {
+                throw new NoSuchElementException();
+            }
             while (sizeIn > 0) {
                 out.push(in.pop());
                 sizeIn--;
