@@ -11,21 +11,23 @@ public class SimpleSet<T> implements Set<T> {
 
     @Override
     public boolean add(T value) {
+        boolean rsl = false;
         if (!contains(value)) {
             set.add(value);
-            return true;
+            rsl = true;
         }
-        return false;
+        return rsl;
     }
 
     @Override
     public boolean contains(T value) {
+        boolean rsl = false;
         for (T element : set) {
             if (Objects.equals(element, value)) {
-                return true;
+                rsl = true;
             }
         }
-        return false;
+        return rsl;
     }
 
     @Override
