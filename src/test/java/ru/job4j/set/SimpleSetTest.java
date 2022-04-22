@@ -38,6 +38,5 @@ public class SimpleSetTest {
         assertTrue(set.add(null));
         assertTrue(set.contains(null));
     }
-
 }
 
