@@ -18,12 +18,12 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        if (table.length * LOAD_FACTOR < count) {
+        if (capacity * LOAD_FACTOR < count) {
             expand();
         }
         MapEntry<K, V> element = new MapEntry<>(key, value);
         int index = indexFor(hash(key.hashCode()));
-        boolean rsl = table[index] == null || table[index].key == key;
+        boolean rsl = table[index] == null;
         if (rsl) {
             table[index] = element;
             count++;
@@ -37,12 +37,13 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int indexFor(int hash) {
-        return hash % table.length;
+        return hash % (table.length - 1);
     }
 
     private void expand() {
+        capacity *= 2;
         MapEntry<K, V>[] oldTable = table;
-        table = new MapEntry[oldTable.length * 2];
+        table = new MapEntry[capacity];
         for (MapEntry<K, V> el : oldTable) {
             if (el != null) {
                 table[indexFor(hash(el.key.hashCode()))] = el;
@@ -53,13 +54,14 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         int index = indexFor(hash(key.hashCode()));
-        return table[index] != null ? table[index].value : null;
+        return table[index] != null && table[index].key.equals(key)
+                ? table[index].value : null;
     }
 
     @Override
     public boolean remove(K key) {
         int indexRemove = indexFor(hash(key.hashCode()));
-        boolean rsl = table[indexRemove] != null && table[indexRemove].key == key;
+        boolean rsl = table[indexRemove] != null && table[indexRemove].key.equals(key);
         if (rsl) {
             table[indexRemove] = null;
         }
@@ -77,7 +79,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return point++ < count;
+                while (point < table.length && table[point] == null) {
+                    point++;
+                }
+                return point <= count;
             }
 
             @Override
@@ -85,10 +90,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                while (table[point] != null) {
-                   point++;
-                }
-                return table[point].key;
+                return table[point++].key;
             }
         };
     }

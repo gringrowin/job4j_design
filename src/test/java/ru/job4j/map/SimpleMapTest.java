@@ -16,25 +16,33 @@ public class SimpleMapTest {
 
     private Iterator<String> it;
 
+    @Before
+    public void setUp() {
+        Map<String, Integer> map = new SimpleMap<>();
+        map.put("key1", 1);
+        map.put("key2", 2);
+        map.put("key3", 3);
+        it = map.iterator();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void shouldReturnTrueWhenHasNext() {
+        assertThat(it.hasNext(), Is.is(true));
+        it.next();
+        assertThat(it.hasNext(), Is.is(true));
+        it.next();
+        assertThat(it.hasNext(), Is.is(true));
+        it.next();
+        assertThat(it.hasNext(), Is.is(false));
+        it.next();
+    }
+
     @Test
     public void whenPutNotNull() {
         Map<String, Integer> map = new SimpleMap<>();
         assertTrue(map.put("key", 1));
         assertTrue(map.put("key2", 1));
-    }
-
-    @Test
-    public void whenPutElemetsMoreThanCapacity() {
-        Map<String, Integer> map = new SimpleMap<>();
-        assertTrue(map.put("key1", 1));
-        assertTrue(map.put("key2", 1));
-        assertTrue(map.put("key3", 1));
-        assertTrue(map.put("key4", 1));
-        assertTrue(map.put("key5", 1));
-        assertTrue(map.put("key6", 1));
-        assertTrue(map.put("key7", 1));
-        assertTrue(map.put("key8", 1));
-        assertTrue(map.put("key9", 1));
+        assertFalse(map.put("key", 1));
     }
 
     @Test
@@ -68,23 +76,4 @@ public class SimpleMapTest {
         assertTrue(map.remove("key2"));
         assertTrue(map.remove("key"));
     }
-
-    @Before
-    public void setUp() {
-        Map<String, Integer> map = new SimpleMap<>();
-        map.put("key1", 1);
-        map.put("key2", 2);
-        map.put("key3", 3);
-        it = map.iterator();
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void shouldReturnTrueWhenHasNext() {
-        assertThat(it.hasNext(), Is.is(true));
-        assertThat(it.hasNext(), Is.is(true));
-        assertThat(it.hasNext(), Is.is(true));
-        assertThat(it.hasNext(), Is.is(false));
-        it.next();
-    }
-
 }
