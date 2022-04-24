@@ -82,7 +82,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 while (point < table.length && table[point] == null) {
                     point++;
                 }
-                return point <= count;
+                return point < table.length;
             }
 
             @Override
