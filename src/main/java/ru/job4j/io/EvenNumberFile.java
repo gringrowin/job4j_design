@@ -14,8 +14,7 @@ public class EvenNumberFile {
             Arrays.stream(text.toString()
                     .split(System.lineSeparator()))
                     .map(Integer::parseInt)
-                    .filter(x -> x % 2 == 0)
-                    .forEach(x -> System.out.println(x));
+                    .forEach(x -> System.out.println(x + " четное? " + (x % 2 == 0)));
         } catch (Exception e) {
             e.printStackTrace();
         }
