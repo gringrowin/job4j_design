@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class EvenNumberFile {
@@ -15,7 +16,7 @@ public class EvenNumberFile {
                     .split(System.lineSeparator()))
                     .map(Integer::parseInt)
                     .forEach(x -> System.out.println(x + " четное? " + (x % 2 == 0)));
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
