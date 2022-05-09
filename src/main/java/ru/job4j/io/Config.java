@@ -19,7 +19,7 @@ public class Config {
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
            read.lines()
-               .filter(s -> !s.isEmpty() && !s.startsWith("#") && !s.startsWith("//"))
+               .filter(s -> !s.isEmpty() && !s.startsWith("#") && !s.startsWith("/"))
                .map(s -> s.split("=", 2))
                .forEach(s -> {
                    if (s.length == 2) {
