@@ -17,7 +17,7 @@ public class ResultFile {
 
     public static void main(String[] args) {
         int[][] matrix = multiple(9);
-        try (FileOutputStream out = new FileOutputStream("result.txt")) {
+        try (FileOutputStream out = new FileOutputStream("./data/result.txt")) {
             for (int[] y : matrix) {
                 out.write(System.lineSeparator().getBytes());
                 for (int x : y) {
