@@ -22,14 +22,10 @@ public class Config {
                .filter(s -> !s.isEmpty() && !s.startsWith("#"))
                .map(s -> s.split("=", 2))
                .forEach(s -> {
-                   if (s.length == 2) {
-                       if (s[0].isEmpty() || s[1].isEmpty()) {
-                           throw new IllegalArgumentException("Error in config structure");
-                       }
-                       values.put(s[0], s[1]);
-                   } else {
+                   if (s.length != 2 || s[0].isEmpty() || s[1].isEmpty()) {
                        throw new IllegalArgumentException("Error in config structure");
                    }
+                   values.put(s[0], s[1]);
                });
         } catch (IOException e) {
             e.printStackTrace();
