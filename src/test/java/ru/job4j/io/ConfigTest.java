@@ -14,7 +14,7 @@ public class ConfigTest {
         Config config = new Config(path);
         config.load();
         assertThat(config.value("name"), is("Maxim Pavlishin"));
-        assertThat(config.value("surname"), is(Matchers.nullValue()));
+        assertThat(config.value("comment"), is(Matchers.nullValue()));
     }
 
     @Test
@@ -24,7 +24,6 @@ public class ConfigTest {
         config.load();
         assertThat(config.value("password"), is("123=123"));
         assertThat(config.value("login"), is("max"));
-        assertThat(config.value("coment"), is(Matchers.nullValue()));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -44,6 +43,13 @@ public class ConfigTest {
     @Test(expected = IllegalArgumentException.class)
     public void whenPairWithoutKeyAndValue() {
         String path = "./data/pair_without_key_and_value.properties";
+        Config config = new Config(path);
+        config.load();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenPairWithoutSplit() {
+        String path = "./data/pair_without_split.properties";
         Config config = new Config(path);
         config.load();
     }

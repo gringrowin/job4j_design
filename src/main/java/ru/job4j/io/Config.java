@@ -27,6 +27,8 @@ public class Config {
                            throw new IllegalArgumentException("Error in config structure");
                        }
                        values.put(s[0], s[1]);
+                   } else {
+                       throw new IllegalArgumentException("Error in config structure");
                    }
                });
         } catch (IOException e) {
