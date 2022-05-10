@@ -10,17 +10,13 @@ public class Analizy {
             String line = in.readLine();
             while (line != null) {
                 boolean serverNotAvailable = line.startsWith("400") || line.startsWith("500");
-                if (serverNotAvailable) {
-                    if (countStepByLogLine == 0) {
-                        out.print(line.split(" ", 2)[1]);
-                    }
+                if (serverNotAvailable && countStepByLogLine == 0) {
+                    out.print(line.split(" ", 2)[1]);
                     countStepByLogLine++;
                 }
-                if (!serverNotAvailable) {
-                    if (countStepByLogLine > 0) {
-                        out.println(";" + line.split(" ", 2)[1]);
-                        countStepByLogLine = 0;
-                    }
+                if (!serverNotAvailable && countStepByLogLine > 0) {
+                    out.println(";" + line.split(" ", 2)[1]);
+                    countStepByLogLine = 0;
                 }
                 line = in.readLine();
             }
