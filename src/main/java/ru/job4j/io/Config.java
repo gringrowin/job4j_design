@@ -19,7 +19,7 @@ public class Config {
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
            read.lines()
-               .filter(s -> !s.isEmpty() && !s.startsWith("#") && !s.startsWith("/"))
+               .filter(s -> !s.isEmpty() && !s.startsWith("#"))
                .map(s -> s.split("=", 2))
                .forEach(s -> {
                    if (s.length == 2) {
@@ -27,8 +27,6 @@ public class Config {
                            throw new IllegalArgumentException("Error in config structure");
                        }
                        values.put(s[0], s[1]);
-                   } else {
-                       values.put(s[0], null);
                    }
                });
         } catch (IOException e) {
@@ -56,7 +54,7 @@ public class Config {
         config.load();
         System.out.println(config);
 
-        String path = "./data/pair_with_comment.properties";
+        String path = "./data/pair_with_empty_line.properties";
         Config config1 = new Config(path);
         config1.load();
         System.out.println(config1.values.values());
