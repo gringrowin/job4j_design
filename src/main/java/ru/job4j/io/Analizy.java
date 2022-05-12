@@ -24,10 +24,4 @@ public class Analizy {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        Analizy analizy = new Analizy();
-        analizy.unavailable("./data/server_log.txt", "./data/unavailable.csv");
-
-    }
 }
