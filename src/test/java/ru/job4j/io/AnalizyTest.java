@@ -30,7 +30,7 @@ public class AnalizyTest {
         analizy.unavailable(source.getAbsolutePath(), target.getAbsolutePath());
         StringBuilder rsl = new StringBuilder();
         try (BufferedReader in = new BufferedReader(new FileReader(target))) {
-            in.lines().forEach(line -> rsl.append(line).append(System.lineSeparator()));
+            in.lines().forEach(line -> rsl.append(line).append("\r\n"));
         }
         assertThat(rsl.toString(), is("10:57:01;10:59:01\r\n11:01:02;11:02:02\r\n"));
     }
