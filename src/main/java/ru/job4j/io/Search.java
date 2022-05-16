@@ -10,8 +10,22 @@ import java.util.function.Predicate;
 public class Search {
 
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, p -> p.toFile().getName().endsWith(".java")).forEach(System.out::println);
+        if (argsValid(args)) {
+            Path start = Paths.get(args[0]);
+            search(start, p -> p.toFile().getName()
+                    .endsWith(args[1]))
+                    .forEach(System.out::println);
+        }
+    }
+
+    public static boolean argsValid(String[] args) {
+        if (args.length < 2) {
+            throw new IllegalArgumentException("Need 2 arguments. Path and extension file ");
+        }
+        if (args.length > 2) {
+            throw new IllegalArgumentException("Too many arguments ");
+        }
+        return true;
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
