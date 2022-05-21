@@ -22,10 +22,10 @@ public class ArgsName {
         }
         Arrays.stream(args)
                 .map(s -> {
-                    if (Pattern.matches("^-.+=.+", s)) {
-                        return s.split("=", 2);
+                    if (!Pattern.matches("^-.+=.+", s)) {
+                        throw new IllegalArgumentException("Error in argument structure");
                     }
-                    throw new IllegalArgumentException("Error in argument structure");
+                    return s.split("=", 2);
                 })
                 .forEach(s -> values.put(s[0].substring(1), s[1]));
     }
