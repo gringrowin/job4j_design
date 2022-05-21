@@ -18,14 +18,13 @@ public class Search {
         }
     }
 
-    public static boolean argsValid(String[] args) {
-        if (args.length < 2) {
-            throw new IllegalArgumentException("Need 2 arguments. Path and extension file ");
+    private static boolean argsValid(String[] args) {
+        if (args.length == 2
+                && Files.isDirectory(Path.of(args[0])) || args[1].startsWith(".")) {
+            return true;
         }
-        if (args.length > 2) {
-            throw new IllegalArgumentException("Too many arguments ");
-        }
-        return true;
+        throw new IllegalArgumentException("Incorrect arguments");
+
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
