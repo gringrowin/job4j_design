@@ -19,16 +19,16 @@ public class Search {
     }
 
     private static boolean argsValid(String[] args) {
-        if (args.length == 2) {
-            if (!Files.isDirectory(Path.of(args[0]))) {
-                throw new IllegalArgumentException("Incorrect path");
-            }
-            if (!args[1].startsWith(".")) {
-                throw new IllegalArgumentException("Incorrect file extension");
-            }
-            return true;
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Need two arguments");
         }
-        throw new IllegalArgumentException("Need two arguments");
+        if (!Files.isDirectory(Path.of(args[0]))) {
+            throw new IllegalArgumentException("Incorrect path");
+        }
+        if (!args[1].startsWith(".")) {
+            throw new IllegalArgumentException("Incorrect file extension");
+        }
+        return true;
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) {
