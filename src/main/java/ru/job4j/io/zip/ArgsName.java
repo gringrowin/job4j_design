@@ -1,4 +1,4 @@
-package ru.job4j.io;
+package ru.job4j.io.zip;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +45,5 @@ public class ArgsName {
 
         ArgsName jvm1 = ArgsName.of(new String[] {});
         System.out.println(jvm1);
-
     }
 }

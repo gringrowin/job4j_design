@@ -1,4 +1,4 @@
-package ru.job4j.io;
+package ru.job4j.io.zip;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,9 +31,14 @@ public class Search {
         throw new IllegalArgumentException("Need two arguments");
     }
 
-    public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
+    public static List<Path> search(Path root, Predicate<Path> condition) {
         SearchFiles searcher = new SearchFiles(condition);
-        Files.walkFileTree(root, searcher);
-       return searcher.getPaths();
+        try {
+            Files.walkFileTree(root, searcher);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return searcher.getPaths();
     }
 }
