@@ -24,30 +24,30 @@ public class Zip {
         }
     }
 
-    private static boolean argsValid(String[] args) {
+    private static boolean argsValid(ArgsName argsName, String[] args) {
         if (args.length != 3) {
             throw new IllegalArgumentException("Need three arguments");
         }
-        if (!Files.isDirectory(Path.of(args[0]))) {
+        if (!Files.isDirectory(Paths.get(argsName.get("d")))) {
             throw new IllegalArgumentException("Incorrect path");
         }
-        if (!args[1].startsWith(".")) {
+        if (!argsName.get("e").startsWith(".")) {
             throw new IllegalArgumentException("Incorrect source file extension");
         }
-        if (!args[2].endsWith(".zip")) {
+        if (!argsName.get("o").endsWith(".zip")) {
             throw new IllegalArgumentException("Incorrect target file extension");
         }
         return true;
     }
 
     public static void main(String[] args) {
-        if (argsValid(args)) {
-            ArgsName name = ArgsName.of(args);
+        ArgsName argsName = ArgsName.of(args);
+        if (argsValid(argsName, args)) {
             Zip zip = new Zip();
-            List<Path> sources = Search.search(Paths.get(name.get("d")), p -> !p.toFile()
+            List<Path> sources = Search.search(Paths.get(argsName.get("d")), p -> !p.toFile()
                     .getName()
-                    .endsWith(name.get("e")));
-            Path target = Paths.get(name.get("o"));
+                    .endsWith(argsName.get("e")));
+            Path target = Paths.get(argsName.get("o"));
             zip.packFiles(sources, target);
         }
     }
