@@ -1,6 +1,8 @@
 package ru.job4j.io;
 
+import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 public class ConsoleChat {
 
@@ -16,6 +18,17 @@ public class ConsoleChat {
     }
 
     public void run() {
+        try (BufferedReader in = new BufferedReader(new FileReader(botAnswers));
+             PrintWriter out = new PrintWriter(new FileOutputStream(path))) {
+            Scanner scanner = new Scanner(System.in);
+            boolean chatIsOn = true;
+            while (chatIsOn) {
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
