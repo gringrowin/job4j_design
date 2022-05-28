@@ -1,6 +1,8 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,6 +13,7 @@ public class ConsoleChat {
     private static final String CONTINUE = "продолжить";
     private final String path;
     private final String botAnswers;
+    private boolean botIsOn = true;
 
     public ConsoleChat(String path, String botAnswers) {
         this.path = path;
@@ -18,26 +21,58 @@ public class ConsoleChat {
     }
 
     public void run() {
-        try (BufferedReader in = new BufferedReader(new FileReader(botAnswers));
-             PrintWriter out = new PrintWriter(new FileOutputStream(path))) {
-            Scanner scanner = new Scanner(System.in);
-            boolean chatIsOn = true;
-            while (chatIsOn) {
-
+        Scanner scanner = new Scanner(System.in);
+        boolean chatIsOn = true;
+        List<String> botPhrases = readPhrases();
+        List<String> log = new ArrayList<>();
+        while (chatIsOn) {
+            String line = scanner.nextLine();
+            log.add(line);
+            chatIsOn = !line.equalsIgnoreCase(OUT);
+            if (botIsOnCheck(line) && chatIsOn) {
+                String phrase = getRandomPhrase(botPhrases);
+                System.out.println(phrase);
+                log.add(phrase);
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        saveLog(log);
+    }
 
+    private boolean botIsOnCheck(String line) {
+        if (line.equalsIgnoreCase(CONTINUE)) {
+            botIsOn = true;
+        }
+        if (line.equalsIgnoreCase(STOP)) {
+            botIsOn = false;
+        }
+        return botIsOn;
     }
 
     private List<String> readPhrases() {
-        return null;
+        List<String> phrases = new ArrayList<>();
+        try (BufferedReader in = new BufferedReader(new FileReader(botAnswers))) {
+            while (in.ready()) {
+               phrases.add(in.readLine());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return phrases;
+    }
+
+    private String getRandomPhrase(List<String> phrases) {
+        return phrases.get((int) (Math.random() * phrases.size()));
     }
 
     private void saveLog(List<String> log) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(path, Charset.forName("WINDOWS-1251"), true))) {
+            for (String line : log) {
+                out.println(line);
 
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
