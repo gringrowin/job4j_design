@@ -28,7 +28,7 @@ public class ConsoleChat {
         while (chatIsOn) {
             String line = scanner.nextLine();
             log.add(line);
-            chatIsOn = !line.equalsIgnoreCase(OUT);
+            chatIsOn = !OUT.equalsIgnoreCase(line);
             if (botIsOnCheck(line) && chatIsOn) {
                 String phrase = getRandomPhrase(botPhrases);
                 System.out.println(phrase);
@@ -39,10 +39,10 @@ public class ConsoleChat {
     }
 
     private boolean botIsOnCheck(String line) {
-        if (line.equalsIgnoreCase(CONTINUE)) {
+        if (CONTINUE.equalsIgnoreCase(line)) {
             botIsOn = true;
         }
-        if (line.equalsIgnoreCase(STOP)) {
+        if (STOP.equalsIgnoreCase(line)) {
             botIsOn = false;
         }
         return botIsOn;
