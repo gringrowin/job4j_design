@@ -2,13 +2,12 @@ package ru.job4j.io;
 
 import ru.job4j.io.zip.ArgsName;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -22,21 +21,48 @@ public class CSVReader {
         while (scanner.hasNext()) {
             lineIn.add(List.of(scanner.nextLine().split(";")));
         }
-        if (lineIn.size() != 0 && lineIn.get(0).size() != 0) {
-            int numberLine = lineIn.size();
-            int numberColumns = lineIn.get(0).size();
-            String[] filter = argsName.get("filter").split(",");
-            int[] filterIndex = new int[filter.length - 1];
-            for (var f : filter) {
-                for (String columnTitle : lineIn.get(0)) {
-                    if (columnTitle.equals(f)) {
-                        filterIndex
-                    };
-                }
+        checkLineInAdd(lineIn);
+        String[] filter = argsName.get("filter").split(",");
+        int[] filterIndex = getIndexColumnAfterFilter(filter, lineIn);
+        for (int index : filterIndex) {
+            lineIn.stream()..;
+        }
+        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(argsName.get("out"))))) {
+            for (String s :   ) {
+                out.println(s);
             }
-
+        }   catch (IOException e) {
+            e.printStackTrace();
         }
 
+    }
+
+    private static int[] getIndexColumnAfterFilter(String[] filter, List<List<String>> lineIn) {
+        int[] rsl = new int[filter.length];
+        int i = 0;
+        for (String f : filter) {
+            int index = 0;
+            for (String columnHeader : lineIn.get(0)) {
+                if (columnHeader.equals(f)) {
+                    rsl[i] = index;
+                    i++;
+                }
+                index++;
+            }
+        }
+        return rsl;
+    }
+
+    private static boolean checkLineInAdd(List<List<String>> lineIn) {
+        if (lineIn.size() == 0) {
+            throw new NoSuchElementException("Need check source file");
+        }
+        for (List<String> line : lineIn) {
+            if (line.size() != lineIn.get(0).size()) {
+                throw new NoSuchElementException("Need check source file structure");
+            }
+        }
+        return true;
     }
 
     private static boolean argsValid(ArgsName argsName) {
