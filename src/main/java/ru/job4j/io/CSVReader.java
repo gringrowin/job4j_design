@@ -1,19 +1,8 @@
 package ru.job4j.io;
 
-import ru.job4j.io.zip.ArgsName;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
 public class CSVReader {
 
-    public static void handle(ArgsName argsName) throws Exception {
+   /* public static void handle(ArgsName argsName) throws Exception {
         argsValid(argsName);
         List<List<String>> lineIn = new ArrayList<>();
         List<List<String>> lineOut = new ArrayList<>();
@@ -106,4 +95,5 @@ public class CSVReader {
         CSVReader.handle(argsName);
         System.out.println(Files.readString(target.toPath()));
     }
+    */
 }
