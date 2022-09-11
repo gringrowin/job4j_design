@@ -1,6 +1,5 @@
 package ru.job4j.map;
 
-import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,9 +7,8 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertThat;
 
 public class SimpleMapTest {
 
@@ -27,13 +25,13 @@ public class SimpleMapTest {
 
     @Test(expected = NoSuchElementException.class)
     public void shouldReturnTrueWhenHasNext() {
-        assertThat(it.hasNext(), Is.is(true));
+        assertThat(it.hasNext(), is(true));
         it.next();
-        assertThat(it.hasNext(), Is.is(true));
+        assertThat(it.hasNext(), is(true));
         it.next();
-        assertThat(it.hasNext(), Is.is(true));
+        assertThat(it.hasNext(), is(true));
         it.next();
-        assertThat(it.hasNext(), Is.is(false));
+        assertThat(it.hasNext(), is(false));
         it.next();
     }
 

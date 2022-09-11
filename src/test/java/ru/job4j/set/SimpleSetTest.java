@@ -1,12 +1,9 @@
 package ru.job4j.set;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SimpleSetTest {
 
