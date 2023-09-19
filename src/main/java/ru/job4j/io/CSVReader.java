@@ -1,57 +1,46 @@
 package ru.job4j.io;
 
+import ru.job4j.io.zip.ArgsName;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.regex.Pattern;
+
 public class CSVReader {
 
-   /* public static void handle(ArgsName argsName) throws Exception {
-        argsValid(argsName);
-        List<List<String>> lineIn = new ArrayList<>();
-        List<List<String>> lineOut = new ArrayList<>();
-        Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(argsName.get("path"))));
-        while (scanner.hasNext()) {
-            lineIn.add(List.of(scanner.nextLine().split(";")));
-        }
-        checkLineInAdd(lineIn);
-        String[] filter = argsName.get("filter").split(",");
-        int[] filterIndex = getIndexColumnAfterFilter(filter, lineIn);
-        for (int index : filterIndex) {
-            lineIn.stream()..;
-        }
-        try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(argsName.get("out"))))) {
-            for (String s :   ) {
-                out.println(s);
-            }
-        }   catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private static int[] getIndexColumnAfterFilter(String[] filter, List<List<String>> lineIn) {
-        int[] rsl = new int[filter.length];
-        int i = 0;
-        for (String f : filter) {
-            int index = 0;
-            for (String columnHeader : lineIn.get(0)) {
-                if (columnHeader.equals(f)) {
-                    rsl[i] = index;
-                    i++;
-                }
-                index++;
-            }
-        }
-        return rsl;
-    }
-
-    private static boolean checkLineInAdd(List<List<String>> lineIn) {
-        if (lineIn.size() == 0) {
-            throw new NoSuchElementException("Need check source file");
-        }
-        for (List<String> line : lineIn) {
-            if (line.size() != lineIn.get(0).size()) {
-                throw new NoSuchElementException("Need check source file structure");
-            }
-        }
-        return true;
+   public static void handle(ArgsName argsName) throws Exception {
+       argsValid(argsName);
+       String delimiter = argsName.get("delimiter");
+       StringBuilder outLines = new StringBuilder();
+       String[] filterColumns = argsName.get("filter").split(",");
+       try (Scanner scanner = new Scanner(new BufferedInputStream(new FileInputStream(argsName.get("path"))))) {
+           if (scanner.hasNext()) {
+               List<String> columns = List.of(scanner.nextLine().split(delimiter));
+               if (!columns.containsAll(List.of(filterColumns))) {
+                   throw new IndexOutOfBoundsException("The file does not contain all the required filters");
+               }
+               outLines.append(String.join(delimiter, filterColumns)).append(System.lineSeparator());
+               while (scanner.hasNext()) {
+                   List<String> filteredLine = new ArrayList<>();
+                   String[] line = scanner.nextLine().split(delimiter);
+                   for (String header : filterColumns) {
+                       int index = columns.indexOf(header);
+                       filteredLine.add(line[index]);
+                   }
+                   outLines.append(String.join(delimiter, filteredLine)).append(System.lineSeparator());
+               }
+           }
+       } catch (IOException e) {
+           e.printStackTrace();
+       }
+       if ("stdout".equals(argsName.get("out"))) {
+           System.out.println(outLines);
+       } else {
+           Files.writeString(Path.of(argsName.get("out")), outLines.toString());
+       }
     }
 
     private static boolean argsValid(ArgsName argsName) {
@@ -70,30 +59,4 @@ public class CSVReader {
         }
         return true;
     }
-
-    public static void main(String[] args) throws Exception {
-        String data = String.join(
-                System.lineSeparator(),
-                "name;age;last_name;education",
-                "Tom;20;Smith;Bachelor",
-                "Jack;25;Johnson;Undergraduate",
-                "William;30;Brown;Secondary special"
-        );
-        File file = new File("./data/source.csv");
-        File target = new File("./data/target.csv");
-        ArgsName argsName = ArgsName.of(new String[]{
-                "-path=" + file.getAbsolutePath(), "-delimiter=;", "-out=" + target.getAbsolutePath(), "-filter=name,age"
-        });
-        Files.writeString(file.toPath(), data);
-        String expected = String.join(
-                System.lineSeparator(),
-                "name;age",
-                "Tom;20",
-                "Jack;25",
-                "William;30"
-        ).concat(System.lineSeparator());
-        CSVReader.handle(argsName);
-        System.out.println(Files.readString(target.toPath()));
-    }
-    */
 }
