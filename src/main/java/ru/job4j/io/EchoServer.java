@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EchoServer {
 
@@ -18,9 +20,30 @@ public class EchoServer {
                              new InputStreamReader(socket.getInputStream()))) {
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     String firstLine = in.readLine();
-                    if (firstLine.contains("msg=Bye")) {
-                        server.close();
+
+                    Pattern pattern = Pattern.compile("msg=[^&]*");
+                    Matcher matcher = pattern.matcher(firstLine);
+                    String message = "";
+                    while (matcher.find()) {
+                        message = firstLine.substring(matcher.start(), matcher.end());
+                        message = message.replaceFirst("msg=", "");
+                        message = message.replaceFirst(" HTTP/1.1", "");
                     }
+
+                    switch (message) {
+                        case "Hello":
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                            out.write("Hello, dear friend.".getBytes());
+                            break;
+                        case "Exit":
+                            server.close();
+                            break;
+                        default:
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                            out.write(message.getBytes());
+                            break;
+                    }
+
                     for (String str = firstLine; str != null && !str.isEmpty(); str = in.readLine()) {
                         System.out.println(str);
                     }
