@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EchoServer {
 
@@ -21,31 +19,12 @@ public class EchoServer {
                     out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                     String firstLine = in.readLine();
 
-                    Pattern pattern = Pattern.compile("msg=[^&]*");
-                    Matcher matcher = pattern.matcher(firstLine);
-                    String message = "";
-                    while (matcher.find()) {
-                        message = firstLine.substring(matcher.start(), matcher.end());
-                        message = message.replaceFirst("msg=", "");
-                        message = message.replaceFirst(" HTTP/1.1", "");
-                    }
-
-                    switch (message) {
-                        case "Hello":
-                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                            out.write("Hello, dear friend.".getBytes());
-                            break;
-                        case "Exit":
-                            server.close();
-                            break;
-                        default:
-                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                            out.write(message.getBytes());
-                            break;
-                    }
-
-                    for (String str = firstLine; str != null && !str.isEmpty(); str = in.readLine()) {
-                        System.out.println(str);
+                    if (firstLine.contains("?msg=Exit")) {
+                        server.close();
+                    } else if (firstLine.contains("?msg=Hello")) {
+                        out.write("Hello, dear friend.".getBytes());
+                    } else {
+                        out.write(firstLine.split(" ")[1].getBytes());
                     }
                     out.flush();
                 }
