@@ -1,0 +1,10 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<car model="Moskvich">
+    <engine horse="70" volume="3500" isTurbo="true"/>
+    <wheels>
+        <wheel>first</wheel>
+        <wheel>second</wheel>
+        <wheel>third</wheel>
+        <wheel>fourth</wheel>
+    </wheels>
+</car>
