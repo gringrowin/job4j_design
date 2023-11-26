@@ -8,16 +8,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-//        final Car car = new Car("Moskvich",
-//                new Engine(72, 3500, true),
-//                new String[]{"first", "second", "third", "fourth"});
-//
-//        final Gson gson = new GsonBuilder().create();
-//        final String carJson = gson.toJson(car);
-//        System.out.println(carJson);
-//
-//        final Car car1 = gson.fromJson(carJson, Car.class);
-//        System.out.println(car1);
 
         /* JSONArray из ArrayList */
         List<String> wheelsList = new ArrayList<>();
