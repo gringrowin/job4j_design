@@ -12,6 +12,18 @@ public class Engine {
         this.isTurbo = isTurbo;
     }
 
+    public int getHorse() {
+        return horse;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public boolean isTurbo() {
+        return isTurbo;
+    }
+
     @Override
     public String toString() {
         return "Engine{"

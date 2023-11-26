@@ -15,6 +15,18 @@ public class Car {
         this.wheels = wheels;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public String[] getWheels() {
+        return wheels;
+    }
+
     @Override
     public String toString() {
         return "Car{"

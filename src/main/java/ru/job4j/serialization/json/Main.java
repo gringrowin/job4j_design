@@ -1,19 +1,49 @@
 package ru.job4j.serialization.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        final Car car = new Car("Moskvich",
-                new Engine(72, 3500, true),
-                new String[]{"first", "second", "third", "fourth"});
+//        final Car car = new Car("Moskvich",
+//                new Engine(72, 3500, true),
+//                new String[]{"first", "second", "third", "fourth"});
+//
+//        final Gson gson = new GsonBuilder().create();
+//        final String carJson = gson.toJson(car);
+//        System.out.println(carJson);
+//
+//        final Car car1 = gson.fromJson(carJson, Car.class);
+//        System.out.println(car1);
 
-        final Gson gson = new GsonBuilder().create();
-        final String carJson = gson.toJson(car);
-        System.out.println(carJson);
+        /* JSONArray из ArrayList */
+        List<String> wheelsList = new ArrayList<>();
+        wheelsList.add("first");
+        wheelsList.add("second");
+        wheelsList.add("third");
+        wheelsList.add("fourth");
+        JSONArray jsonWheels = new JSONArray(wheelsList);
 
-        final Car car1 = gson.fromJson(carJson, Car.class);
-        System.out.println(car1);
+        /* JSONObject напрямую методом put */
+        final Engine engine = new Engine(72, 3500, true);
+
+
+        final String[] wheels = new String[]{"first", "second", "third", "fourth"};
+
+        final Car car = new Car("Moskvich", engine, wheels);
+
+        JSONObject jsonCar = new JSONObject();
+        jsonCar.put("model", car.getModel());
+        jsonCar.put("engine", new JSONObject(engine));
+        jsonCar.put("wheels", jsonWheels);
+
+        /* Выведем результат в консоль */
+        System.out.println(jsonCar.toString());
+
+        /* Преобразуем объект car в json-строку */
+        System.out.println(new JSONObject(car).toString());
     }
 }
